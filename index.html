@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/webp" href="/logo.webp" />
+    <link rel="icon" type="image/png" href="/logo192.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Expert equine web design services for horse businesses. Specializing in custom websites, equine sales platforms, and software solutions for the equestrian industry." />
+    <meta name="keywords" content="equine web design, horse website design, equestrian web development, equine sales platform, horse business website" />
+    <meta name="theme-color" content="#3CAAFF" />
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Fix preload with proper crossorigin -->
+    <link rel="modulepreload" href="/src/main.tsx" as="script" crossorigin />
+    
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    
+    <!-- Prevent layout shifts -->
+    <style>
+      html {
+        scrollbar-gutter: stable;
+      }
+      
+      /* Ensure all motion containers have non-static positioning */
+      .motion-container {
+        position: relative;
+      }
+    </style>
+    
+    <title>Equine Web Design Experts | Custom Websites for Horse Businesses</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

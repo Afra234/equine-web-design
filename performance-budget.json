@@ -1,0 +1,22 @@
+{
+  "resourceSizes": [
+    {
+      "path": "*.js",
+      "maxSize": "200kb"
+    },
+    {
+      "path": "*.css",
+      "maxSize": "50kb"
+    }
+  ],
+  "resourceCounts": [
+    {
+      "resourceType": "script",
+      "budget": 10
+    },
+    {
+      "resourceType": "stylesheet",
+      "budget": 2
+    }
+  ]
+} 
