@@ -15,7 +15,7 @@ const ContactHero = () => {
       <div className="absolute inset-0 z-10">
         <SwirlBackground />
       </div>
-      
+
       {/* Grid pattern overlay */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -49,8 +49,8 @@ const ContactHero = () => {
                 <span className="text-[#3CAAFF]/90">Available for New Projects</span>
               </div>
             </motion.div>
-            
-            <motion.h1 
+
+            <motion.h1
               className="text-5xl lg:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#3CAAFF] via-white to-[#3CAAFF] leading-tight mb-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -59,14 +59,14 @@ const ContactHero = () => {
               Let's Create<br />
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#3CAAFF] to-[#93c5fd]">Something Amazing</span>
             </motion.h1>
-            
-            <motion.p 
+
+            <motion.p
               className="text-lg text-[#94a3b8]/90 max-w-xl font-light leading-relaxed"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
             >
-              Have a project in mind? We're here to turn your vision into reality. 
+              Have a project in mind? We're here to turn your vision into reality.
               Our team combines creativity with technical expertise to deliver exceptional results.
             </motion.p>
           </motion.div>
@@ -80,7 +80,7 @@ const ContactHero = () => {
           >
             <div className="bg-[#0A0A0A]/40 backdrop-blur-xl rounded-2xl border border-[#3CAAFF]/10 p-8">
               <div className="space-y-6">
-                <motion.div 
+                <motion.div
                   className="flex items-start gap-4"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -95,7 +95,7 @@ const ContactHero = () => {
                   </div>
                 </motion.div>
 
-                <motion.div 
+                <motion.div
                   className="flex items-start gap-4"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -110,7 +110,7 @@ const ContactHero = () => {
                   </div>
                 </motion.div>
 
-                <motion.div 
+                <motion.div
                   className="flex items-start gap-4"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -147,6 +147,29 @@ const ContactInfo = () => {
     }
   ];
 
+  // Variants for container to stagger children animations
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.3,
+      },
+    },
+  };
+
+  // Variants for each card animation
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: [0.165, 0.84, 0.44, 1]
+      },
+    },
+  };
+
   return (
     <section className="py-24 px-4 sm:px-6 lg:px-8 bg-black relative overflow-hidden">
       {/* Gradient orbs */}
@@ -155,24 +178,18 @@ const ContactInfo = () => {
 
       <div className="max-w-7xl mx-auto relative">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true, margin: "-100px" }}
           className="grid md:grid-cols-2 gap-12"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
         >
           {features.map((feature, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ 
-                duration: 0.5, 
-                delay: index * 0.2,
-                ease: [0.165, 0.84, 0.44, 1]
-              }}
-              viewport={{ once: true, margin: "-100px" }}
+              variants={cardVariants}
               className="bg-gradient-to-br from-[#0A0A0A] to-[#111111] p-8 rounded-2xl border border-[#3CAAFF]/10 hover:border-[#3CAAFF]/20 transition-all duration-300"
+              style={{ willChange: "transform, opacity", transform: "translateZ(0)" }} // Explicit style for better browser optimization
             >
               <div className="bg-[#3CAAFF]/5 p-3 rounded-xl w-fit mb-6">
                 <div className="text-[#3CAAFF]/90">{feature.icon}</div>

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { useNavigate, useLocation } from "react-router-dom"; 
+import { useNavigate, useLocation } from "react-router-dom";
 import { Menu, X, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import logo from "../images/logo.webp";
@@ -7,9 +7,9 @@ import { useAnimation } from '../contexts/AnimationContext';
 
 const Header = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const navigate = useNavigate(); 
-  const location = useLocation(); 
-  
+  const navigate = useNavigate();
+  const location = useLocation();
+
   // Use useTransform for more efficient scroll calculations
   const { scrollY } = useScroll();
   const bgOpacityValue = useTransform(scrollY, [0, 300], [0.7, 0.95]);
@@ -27,38 +27,38 @@ const Header = () => {
       navigate("/");
       setTimeout(() => {
         const section = document.getElementById(sectionId);
-        section?.scrollIntoView({ behavior: "smooth" });
+        section?.scrollIntoView();
       }, 500);
     } else {
       const section = document.getElementById(sectionId);
-      section?.scrollIntoView({ behavior: "smooth" });
+      section?.scrollIntoView();
     }
   }, [location.pathname, navigate]);
 
   // Memoize nav items to prevent unnecessary re-renders
   const navItems = useMemo(() => [
-    { 
-      label: "Services", 
+    {
+      label: "Services",
       action: () => {
         navigate("/services");
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } 
+        window.scrollTo(0, 0);
+      }
     },
     { label: "Testimonials", action: () => handleNavigation("testimonials") },
-    { 
-      label: "Articles", 
+    {
+      label: "Articles",
       action: () => {
         navigate("/articles");
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } 
+        window.scrollTo(0, 0);
+      }
     },
   ], [handleNavigation, navigate]);
 
   useEffect(() => {
     if (isSidebarOpen) {
-      document.body.style.overflow = "hidden"; 
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto"; 
+      document.body.style.overflow = "auto";
     }
     return () => {
       document.body.style.overflow = "auto";
@@ -74,9 +74,16 @@ const Header = () => {
           boxShadow: shadowOpacity.get() > 0.1 ? `0 4px 30px rgba(0, 0, 0, ${shadowOpacity.get()})` : 'none'
         }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-20">
-            <a href="/" className="flex items-center">
-              <img src={logo} className="w-40 h-auto drop-shadow-lg" alt="Logo" />
-            </a>
+            <div className="flex items-center cursor-pointer">
+              <img src={logo}
+                className="w-40 h-auto drop-shadow-lg"
+                alt="Logo"
+                onClick={() => {
+                  navigate("/");
+                  window.scrollTo(0, 0);
+                }}
+              />
+            </div>
 
             <div className="hidden md:flex space-x-6">
               {navItems.map((item, index) => (
@@ -106,7 +113,10 @@ const Header = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
               className="md:hidden text-[#ABABAB] hover:text-[#F5F5F7] transition-colors duration-200 p-2 rounded-full bg-black/50 backdrop-blur-sm"
-              onClick={() => setIsSidebarOpen(true)}
+              onClick={() => {
+                setIsSidebarOpen(true);
+                setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 500);
+              }}
             >
               <Menu className="w-6 h-6" />
             </motion.button>
@@ -165,6 +175,7 @@ const Header = () => {
                     onClick={() => {
                       setIsSidebarOpen(false);
                       navigate("/contact");
+                      setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 500);
                     }}
                   >
                     Contact Us
@@ -188,9 +199,16 @@ const Header = () => {
           }}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-20">
-            <a href="/" className="flex items-center">
-              <img src={logo} className="w-40 h-auto drop-shadow-lg" alt="Logo" />
-            </a>
+            <div className="flex items-center cursor-pointer">
+              <img src={logo}
+                className="w-40 h-auto drop-shadow-lg"
+                alt="Logo"
+                onClick={() => {
+                  navigate("/");
+                  window.scrollTo(0, 0);
+                }}
+              />
+            </div>
 
             <div className="hidden md:flex space-x-6">
               {navItems.map((item, index) => (
@@ -209,7 +227,10 @@ const Header = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="hidden md:block bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] px-6 py-2.5 rounded-full text-sm font-medium shadow-md hover:shadow-lg hover:shadow-[#3CAAFF]/25 transition-all duration-300 text-[#0A0A0A]"
-              onClick={() => navigate("/contact")}
+              onClick={() => {
+                navigate("/contact");
+                window.scrollTo(0, 0);
+              }}
             >
               Contact Us
               <ChevronRight className="inline-block ml-1 w-4 h-4" />
@@ -279,6 +300,7 @@ const Header = () => {
                     onClick={() => {
                       setIsSidebarOpen(false);
                       navigate("/contact");
+                      window.scrollTo(0, 0);
                     }}
                   >
                     Contact Us

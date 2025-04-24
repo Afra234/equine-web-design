@@ -1,28 +1,76 @@
 import { motion } from 'framer-motion';
 import { Compass, Mail, Phone, Instagram, Facebook } from 'lucide-react';
+import { useNavigate, useLocation } from "react-router-dom";
+import { useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom'; // Use Link for internal navigation
 
-const FooterLink = ({ to, children }: { to: string; children: React.ReactNode }) => (
-  <li>
-    <Link 
-      to={to} 
-      className="text-[#777777] hover:text-[#AABBDD] transition-colors duration-200 text-sm relative group"
-    >
-      {children}
-      <span className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-[#3CAAFF]/0 to-[#3CAAFF] group-hover:w-full transition-all duration-300 ease-out"></span>
-    </Link>
-  </li>
-);
-
 const Footer = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const currentYear = new Date().getFullYear();
+
+  const handleNavigation = useCallback((sectionId: string) => {
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        const section = document.getElementById(sectionId);
+        section?.scrollIntoView();
+      }, 500);
+    } else {
+      const section = document.getElementById(sectionId);
+      section?.scrollIntoView();
+    }
+  }, [location.pathname, navigate]);
+
+  const navItems = useMemo(() => [
+    {
+      label: "Home",
+      action: () => {
+        navigate("/");
+        window.scrollTo(0, 0);
+      }
+    },
+    {
+      label: "Services",
+      action: () => {
+        navigate("/services");
+        window.scrollTo(0, 0);
+      }
+    },
+    {
+      label: "Facilities",
+      action: () => handleNavigation("facilites")
+    },
+    { label: "Testimonials", action: () => handleNavigation("testimonials") },
+    {
+      label: "Articles",
+      action: () => {
+        navigate("/articles");
+        window.scrollTo(0, 0);
+      }
+    },
+    {
+      label: "Blog",
+      action: () => {
+        navigate("/blog");
+        window.scrollTo(0, 0);
+      }
+    },
+    {
+      label: "Contact",
+      action: () => {
+        navigate("/contact");
+        window.scrollTo(0, 0);
+      }
+    },
+  ], [handleNavigation, navigate]);
 
   return (
     <footer className="bg-[#050505] text-[#ABABAB] pt-20 pb-10 mt-24 relative overflow-hidden footer-noise-bg">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#222222] to-transparent"></div>
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -46,12 +94,12 @@ const Footer = () => {
           <div>
             <h3 className="text-[#F5F5F7] font-medium mb-4 text-base tracking-wide">Navigation</h3>
             <ul className="space-y-3">
-              <FooterLink to="/">Home</FooterLink>
-              <FooterLink to="/#services">Services</FooterLink> {/* Assuming Services section has id="services" */}
-              <FooterLink to="/#facilities">Facilities</FooterLink> {/* Assuming Facilities section has id="facilities" */}
-              <FooterLink to="/#testimonials">Testimonials</FooterLink> {/* Assuming Testimonials section has id="testimonials" */}
-              <FooterLink to="/blog">Blog</FooterLink>
-              <FooterLink to="/contact">Contact</FooterLink>
+              {navItems.map((item, index) => (
+                <li className="text-[#777777] hover:text-[#AABBDD] transition-colors duration-200 text-sm relative group cursor-pointer" key={index} onClick={item.action}>
+                  {item.label}
+                  <span className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-[#3CAAFF]/0 to-[#3CAAFF] group-hover:w-full transition-all duration-300 ease-out"></span>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -75,9 +123,9 @@ const Footer = () => {
             {/* Social Media Links */}
             <h3 className="text-[#F5F5F7] font-medium mb-4 text-base tracking-wide">Follow Us</h3>
             <div className="flex space-x-4">
-              <a 
-                href="https://www.facebook.com/equinology.co.uk" 
-                aria-label="Facebook" 
+              <a
+                href="https://www.facebook.com/equinology.co.uk"
+                aria-label="Facebook"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#777777] hover:text-[#3CAAFF] transition-colors duration-200"

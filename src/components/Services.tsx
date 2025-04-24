@@ -36,10 +36,10 @@ const Services = () => {
     target: containerRef,
     offset: ["start end", "end start"]
   });
-  
+
   // Smooth the scroll progress to avoid jittery transitions.
   const smoothScroll = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-  
+
   // Reduce amplitude for a subtle parallax effect.
   const parallaxUp = useTransform(smoothScroll, [0, 1], [0, 20]);
   const parallaxDown = useTransform(smoothScroll, [0, 1], [20, 0]);
@@ -80,21 +80,24 @@ const Services = () => {
 
   // Variants for the service card container.
   const containerVariants = {
-    hidden: { opacity: 0 },
+    hidden: {},
     visible: {
-      opacity: 1,
-      transition: { delayChildren: 0.2, staggerChildren: 0.15 },
+      transition: {
+        staggerChildren: 0.2, // space out animations slightly
+      },
     },
   };
 
   // Variants for each service card.
   const itemVariants = {
-    hidden: { opacity: 0, y: 20, scale: 0.97 },
+    hidden: { opacity: 0, y: 30 }, // start slightly lower and fully transparent
     visible: {
       opacity: 1,
       y: 0,
-      scale: 1,
-      transition: { duration: 0.7, ease: [0.165, 0.84, 0.44, 1] },
+      transition: {
+        duration: 0.8,          // longer duration for smoothness
+        ease: [0.165, 0.84, 0.44, 1]// custom cubic-bezier easing for smooth ease-out
+      },
     },
   };
 
@@ -102,7 +105,7 @@ const Services = () => {
     <section ref={containerRef} className="relative py-32 overflow-hidden">
       {/* Background SVG pattern */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjMDgwODA4Ij48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDVMNSAwWk02IDRMNCA2Wk0tMSAxTDEgLTFaIiBzdHJva2U9IiMxNTE1MTUiIHN0cm9rZS13aWR0aD0iMSI+PC9wYXRoPgo8L3N2Zz4=')] opacity-20"></div>
-      
+
       {/* Subtle animated background orbs - adjusted opacity and animation */}
       <AnimatedOrb
         className="bg-gradient-to-r from-[#3CAAFF]/15 to-[#00E0FF]/15"
@@ -153,6 +156,7 @@ const Services = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.7, ease: [0.165, 0.84, 0.44, 1] }}
+              style={{ willChange: "transform, opacity", transform: "translateZ(0)" }} // Explicit style for better browser optimization
               className="text-3xl sm:text-4xl font-bold mb-4"
             >
               <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">Our Services</span>
@@ -193,20 +197,21 @@ const Services = () => {
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-200px" }}
+            viewport={{ once: true, margin: "0px" }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {services.map((service, index) => (
               <motion.div
                 key={index}
                 variants={itemVariants}
+                style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
                 whileHover={{
                   y: -8,
                   transition: { duration: 0.3, ease: "easeOut" },
                 }}
-                className="bg-gradient-to-br from-[#111111] to-[#0A0A0A] p-8 rounded-2xl border border-[#222222]/20 transition-all duration-300 group hover:shadow-xl hover:shadow-[#3CAAFF]/10 hover:border-[#3CAAFF]/20"
+                className="bg-gradient-to-br from-[#111111] to-[#0A0A0A] p-8 rounded-2xl border border-[#222222]/20 group hover:shadow-xl hover:shadow-[#3CAAFF]/10 hover:border-[#3CAAFF]/20"
               >
-                <div className="bg-gradient-to-br from-[#0A0A0A]/80 to-[#111111]/30 p-4 rounded-xl inline-block mb-6 transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-[#3CAAFF]/20 group-hover:to-[#0A0A0A]/20 transform group-hover:scale-105">
+                <div className="bg-gradient-to-br from-[#0A0A0A]/80 to-[#111111]/30 p-4 rounded-xl inline-block mb-6 group-hover:bg-gradient-to-br group-hover:from-[#3CAAFF]/20 group-hover:to-[#0A0A0A]/20 transform group-hover:scale-105 transition-colors duration-300">
                   {service.icon}
                 </div>
                 <h3 className="text-xl font-semibold mb-3 text-[#F5F5F7] group-hover:text-[#3CAAFF] transition-colors duration-300">

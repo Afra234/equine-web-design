@@ -43,23 +43,22 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial, isActive
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: isActive ? 1 : 0.3, y: isActive ? 0 : 20 }}
+      animate={{ opacity: isActive ? 1 : 0.5, y: isActive ? 0 : 10 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className={`flex-shrink-0 w-[90vw] sm:w-[500px] md:w-[600px] mx-auto transition-all duration-300 ${
-        isActive ? 'cursor-default scale-100' : 'cursor-pointer scale-95'
-      }`}
+      className={`flex-shrink-0 sm:w-[500px] md:w-[600px] mx-auto transition-all duration-300 ${isActive ? 'cursor-default scale-100' : 'cursor-pointer scale-95'
+        }`}
     >
       <div className="group relative">
         {/* Animated border effect */}
         <div className="absolute -inset-0.5 bg-gradient-to-r from-[#3CAAFF] via-[#00E0FF] to-[#3CAAFF] rounded-xl blur opacity-30 group-hover:opacity-50 transition duration-1000 group-hover:duration-300 animate-gradient-xy"></div>
-        
+
         <div className="relative bg-gradient-to-br from-black/90 to-black/80 p-6 sm:p-8 rounded-xl backdrop-blur-xl shadow-2xl overflow-hidden">
           {/* Futuristic grid background */}
           <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.02] bg-repeat"></div>
-          
+
           {/* Animated gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-br from-[#3CAAFF]/10 via-transparent to-[#00E0FF]/5 animate-pulse-slow"></div>
-          
+
           <div className="relative z-10">
             {/* Quote Text */}
             <div className="relative mb-6">
@@ -179,7 +178,7 @@ const Testimonials = () => {
   };
 
   return (
-    <section 
+    <section
       id="testimonials"
       className="py-16 md:py-24 relative overflow-hidden"
       ref={testimonialRef}
@@ -205,7 +204,7 @@ const Testimonials = () => {
         }}
         parallaxValue={parallaxDown}
       />
-      
+
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -227,13 +226,13 @@ const Testimonials = () => {
         {/* Testimonials Carousel */}
         <div className="relative">
           <div className="w-full max-w-4xl mx-auto overflow-hidden">
-            <motion.div 
+            <motion.div
               className="flex items-center"
               animate={{ x: `-${activeIndex * 100}%` }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
               {testimonials.map((testimonial, index) => (
-                <div key={testimonial.id} className="w-full flex-shrink-0 px-4">
+                <div key={testimonial.id} className="w-full flex-shrink-0 p-4">
                   <TestimonialCard
                     testimonial={{
                       id: testimonial.id,
@@ -268,16 +267,14 @@ const Testimonials = () => {
               <button
                 key={index}
                 onClick={() => setActiveIndex(index)}
-                className={`relative group ${
-                  index === activeIndex ? 'w-10' : 'w-3'
-                } h-3 transition-all duration-300`}
+                className={`relative group ${index === activeIndex ? 'w-10' : 'w-3'
+                  } h-3 transition-all duration-300`}
               >
                 <div className={`absolute inset-0 bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] rounded-full blur opacity-50 group-hover:opacity-70 transition-opacity`}></div>
-                <div className={`relative h-full rounded-full ${
-                  index === activeIndex
+                <div className={`relative h-full rounded-full ${index === activeIndex
                     ? 'bg-[#3CAAFF]'
                     : 'bg-white/20 group-hover:bg-white/30'
-                } transition-all duration-300`}></div>
+                  } transition-all duration-300`}></div>
               </button>
             ))}
           </div>
